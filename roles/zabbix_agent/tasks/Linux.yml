@@ -134,6 +134,7 @@
   become: true
   when:
     - zabbix_agent_tlspskfile is defined
+    - zabbix_agent_tlspskfile
     - not (zabbix_agent2 | bool)
 
 - name: "Create directory for PSK file if not exist (zabbix-agent2)"
@@ -144,6 +145,7 @@
   become: true
   when:
     - zabbix_agent2_tlspskfile is defined
+    - zabbix_agent2_tlspskfile
     - zabbix_agent2 | bool
 
 - name: "Place TLS PSK File"
@@ -156,7 +158,9 @@
   become: true
   when:
     - zabbix_agent_tlspskfile is defined
+    - zabbix_agent2_tlspskfile
     - zabbix_agent_tlspsk_secret is defined
+    - zabbix_agent_tlspsk_secret
     - not (zabbix_agent2 | bool)
   notify:
     - restart zabbix-agent
@@ -171,7 +175,9 @@
   become: true
   when:
     - zabbix_agent2_tlspskfile is defined
+    - zabbix_agent2_tlspskfile
     - zabbix_agent2_tlspsk_secret is defined
+    - zabbix_agent2_tlspsk_secret
     - zabbix_agent2 | bool
   notify:
     - restart zabbix-agent
