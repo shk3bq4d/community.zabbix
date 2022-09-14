@@ -1,0 +1,62 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+#     zabbix_server_url:            https://myzabbix
+#     zabbix_server_login_user:     myuser
+#     zabbix_server_login_password: mypassword
+#     zabbix_server_validate_certs: no
+      host_name:        zabbix-ansible-bug
+      status:           enabled
+      description:      mydescription
+  tasks:
+
+  - name: create host
+    community.zabbix.zabbix_host:
+      server_url:     "{{ zabbix_server_url }}"
+      login_user:     "{{ zabbix_server_login_user }}"
+      login_password: "{{ zabbix_server_login_password }}"
+      validate_certs: "{{ zabbix_server_validate_certs }}"
+      host_name:      "{{ host_name }}"
+      status:         "{{ status }}"
+      description:    "{{ description }}"
+      host_groups:
+      - Templates
+      interfaces:
+      - type: agent
+        main:  1
+        useip: 1
+        ip:    127.0.0.1
+        dns:   localhost
+
+      force: yes
+      macros:
+      - macro: mykey
+        value: value step 1
+
+  - name: update macros with force no and long format
+    community.zabbix.zabbix_host:
+      server_url:     "{{ zabbix_server_url }}"
+      login_user:     "{{ zabbix_server_login_user }}"
+      login_password: "{{ zabbix_server_login_password }}"
+      validate_certs: "{{ zabbix_server_validate_certs }}"
+      host_name:      "{{ host_name }}"
+      status:         "{{ status }}"
+      description:    "{{ description }}"
+      force: no
+      macros:
+      - macro: '{$MYKEY}'
+        value: value step 2
+
+  - name: update macros with force no and short format
+    community.zabbix.zabbix_host:
+      server_url:     "{{ zabbix_server_url }}"
+      login_user:     "{{ zabbix_server_login_user }}"
+      login_password: "{{ zabbix_server_login_password }}"
+      validate_certs: "{{ zabbix_server_validate_certs }}"
+      host_name:      "{{ host_name }}"
+      status:         "{{ status }}"
+      description:    "{{ description }}"
+      force: no
+      macros:
+      - macro: mykey
+        value: value step 3
