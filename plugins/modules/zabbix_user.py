@@ -644,7 +644,7 @@ def main():
         after_login_url=dict(type='str'),
         user_medias=dict(type='list', elements='dict',
                          options=dict(mediatype=dict(type='str', default='Email'),
-                                      sendto=dict(type='str', required=True),
+                                      sendto=dict(type='list', elements='str', required=True),
                                       period=dict(type='str', default='1-7,00:00-24:00'),
                                       severity=dict(type='dict',
                                                     options=dict(
